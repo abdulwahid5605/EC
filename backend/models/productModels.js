@@ -74,6 +74,19 @@ const productSchema = new mongoose.Schema({
     },
   ],
 
+  
+  // let suppose there are multiple admins of the website 
+  // we want to know which admin have created the product to avoid confusion in future
+  // we want to get id of admin creating product automatically 
+
+  user:{
+    // it will take id of user from userSchema
+    type:mongoose.Schema.ObjectId,
+    // giving reference of user models
+    ref:"User",
+    required:true
+
+  },
   createdAt: {
     type: Date,
     default: Date.now,
