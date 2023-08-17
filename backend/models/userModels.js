@@ -18,6 +18,9 @@ const validator = require("validator")
 const bcrypt = require("bcryptjs")
 // jwt token
 const jwt = require("jsonwebtoken")
+// crypto used to create the reset token again. It is a prebuilt js module not 
+const crypto=require("crypto") 
+
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -96,6 +99,34 @@ userSchema.methods.comparePassword = async function (enteredPassword) {
 
 // Forgot password
 // Working: We will generate a "token" again this will not be "jsonWebToken"
-// It will be genrat
+// It will be genrated and will send to the user who has clicked on "forgot password" to update the password again
+// what is crypto? it is used to generate the token again!
+// How it generates? It takes some "random bytes" from memory.On every attempt the random bytes generated will be different hence every hashed value will be different. It is unorganized therefore we convert it into "hex code" form(easily understandable)
+// sha256 algorithm: it hashes the "hex code". The resultant hashed value is called "token"
+// it will be sent to the user to reset his/her password
+
+userSchema.methods.getResetPasswordToken=function()
+{
+    // Generating token
+    const resetToken=crypto.randomBytes(20).toString("hex")
+
+    // console.log(resetToken)
+
+    // hashing the token
+    // we are hasing the token so the admin can not view the exact value of token
+    this.resetPasswordToken=crypto.createHash("sha256").update(resetToken).digest("hex")
+
+    // what if the user gets the token? it should be have an expiry time. 15 minutes would be more then enough
+    // Date.now() takes time in milliseconds
+
+    this.resetPasswordExpire= Date.now()+15*60*1000
+    // console.log(this.resetPasswordToken)
+
+
+    // what the fuck? why we have not returned this.resetPasswordToken????
+    // because only user should be able to view the value of exact token. In database the hased token is stored only
+
+    return resetToken;
+} 
 
 module.exports = mongoose.model("User", userSchema)

@@ -19,14 +19,15 @@ router.route("/products").get( getAllProducts);
 
 // post request
 // to create a product role should be 'admin(authorizedRole)' and user should be logged in 
-router.route("/product/new").post(isAuthenticatedUser, authorizedRoles("admin"), createProduct);
+router.route("/admin/product/new").post(isAuthenticatedUser, authorizedRoles("admin"), createProduct);
 
 // put request+ delete request + get request
 // all apis need the id to work, so same url, applying api on the same url
 router
-  .route("/product/:id")
+  .route("/admin/product/:id")
   .put(isAuthenticatedUser, authorizedRoles("admin"), updateProduct)
   .delete(isAuthenticatedUser, authorizedRoles("admin"), deleteProduct)
-  .get(getProductDetails);
+  
+router.route("/product/:id").get(getProductDetails);
 // this router is imported in app.js
 module.exports = router;
