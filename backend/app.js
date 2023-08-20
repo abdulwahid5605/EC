@@ -18,11 +18,13 @@ app.use(cookieParser())
 // Route imports
 const product = require("./routes/productRoute");
 const user = require("./routes/userRoute")
+const order=require("./routes/orderRoute")
 
 // It acts as a middleware. Middleware is a function having access to request and response and can modify any request or response
 // .use is a method to add middlewares
 app.use("/api/v1", product);
 app.use("/api/v1", user)
+app.use("/api/v1",order)
 
 // using errorHander Middleware here
 app.use(errorMiddleware)

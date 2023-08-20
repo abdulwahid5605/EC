@@ -7,6 +7,9 @@ const {
   updateProduct,
   deleteProduct,
   getProductDetails,
+  productReviews,
+  getProductReviews,
+  deleteReviews,
 } = require("../controller/productController");
 const { isAuthenticatedUser, authorizedRoles } = require("../middleware/auth");
 
@@ -29,5 +32,16 @@ router
   .delete(isAuthenticatedUser, authorizedRoles("admin"), deleteProduct)
   
 router.route("/product/:id").get(getProductDetails);
+
+// ----------------------Reviews Of Product------------------------
+// product reviews put api
+router.route("/reviews").put(isAuthenticatedUser,productReviews)
+
+// Get All reviews Api
+router.route("/reviews").get(getProductReviews)
+
+// deleting review api
+// it is necessary to be logged in to delete your review
+router.route("/reviews").delete(isAuthenticatedUser,deleteReviews)
 // this router is imported in app.js
 module.exports = router;

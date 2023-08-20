@@ -115,4 +115,180 @@ exports.getProductDetails = catchAsyncError(async (req, res, next) => {
 });
 
 
-// 
+// Customer should be able to add reviews
+// we will be making two functions(creating and updating reviews) in the same api
+
+// if you have not gave any review then create function will be used
+
+// if you have already given a review then update function will be used
+
+// how can customer create a review?
+// in the backend the structure of reviews(array) consisit of:
+// user:having id of the user, name: name of user creating the review, ratings:number me hoti han, meaning kitnay stars, comment: user writing something about the product
+// we have to provide all of the above this from body and push them in our database
+
+// what if the user have already provided the view?
+// should we give him the right to update the review? yes
+// How can we do that?
+
+// exports.createProductReview=catchAsyncError(async(req,res,next)=>{
+//   // we have to find the product id first 
+//   // destructuring
+//   const {productId, ratings, comment}=req.body
+//     // productId:req.body.productId,
+//     // // id of user
+//     // // req.user-> logged in used complete decoded data is stored init
+//     // user:req.user.id,
+//     // name:req.user.name,
+//     // // comment and ratings from body
+//     // ratings:req.body.ratings,
+//     // comment:req.body.comment
+
+//   const reviews={
+//     // accessing this id below
+//       user:req.user.id,
+//       name:req.user.name,
+//       ratings:Number(ratings),
+//       comment
+//   }
+//   // finding the product in database and after that db will be updated
+//   const product=await Product.findById(req.body.productId)
+  
+//   // we can use both find and foreach methods of an array to find out the id of the user
+//   // find method will check that user id in review Schema(because we have recorded the id of user during creation of review) is equal to the id of the user "logged in"
+//   const isReviewed=product.reviews.find((rev)=>{rev.user.toStringify()===req.user._id.toStringify()})
+  
+//   // just update the review if it is already given 
+//   if(isReviewed)
+//   {
+//     product.reviews.forEach((rev)=>{
+//       // forEach will be performed when? When the id does not match
+//       // already taking updated review from body simply updating them in the product reviews array
+//       if(rev=>rev.user.toStringify()===req.user._id.toStringify())
+//       {
+//         rev.ratings=ratings,
+//         rev.comment=comment
+//       }
+     
+//     })
+    
+//   }
+//   // review created and saved in db
+//   else 
+//   {
+//     // saving the value of user id, name, ratings, comment
+//     product.reviews.push(reviews)
+//     // we also have to update the number of reviews 
+//     product.noOfReviews=product.reviews.length
+//   }
+
+//   // now total ratings of a product: average of all the ratings
+//   const avg=0
+//   product.reviews.forEach((rev)=>{
+//     avg=avg+rev.rating
+//   })
+
+//   product.ratings=avg/product.reviews.length
+  
+//   await product.save({validateBeforSave:true})
+
+//   res.status(201).json({success:true})
+// })
+
+// practice of review api
+
+exports.productReviews=catchAsyncError(async(req,res,next)=>{
+  const reviews={
+    user:req.user.id,
+    name:req.user.name,
+    rating:Number(req.body.rating),
+    comment:req.body.comment
+  }
+
+  const product = await Product.findById(req.body.productId)
+
+  const isReviewed=product.reviews.find((rev)=>rev.user.toString()===req.user._id.toString())
+  if(isReviewed)
+  {
+    product.reviews.forEach((rev)=>{
+      if(rev.user.toString()===req.user._id.toString()){
+        rev.rating=req.body.rating,
+        rev.comment=req.body.comment 
+      }
+    })
+  }
+  else {
+    product.reviews.push(reviews)
+    product.noOfReviews=product.reviews.length 
+  }
+
+  // const not because values will be changed
+  // const avg=0
+  let avg=0
+  product.reviews.forEach((rev)=>{
+    avg=avg+rev.rating 
+  })
+  product.ratings=avg/product.reviews.length 
+
+  await product.save({validateBeforeSave:true})
+
+  res.status(201).json({success:true})
+})
+
+// Api for getting all reviews of one product
+exports.getProductReviews=catchAsyncError(async(req,res,next)=>{
+  // we will pass id of product in query
+  const product= await Product.findById(req.query.id)
+
+  // what if someone have passed wrong query 
+  if(!product)
+  {
+    return next(new ErrorHander(`Product with the id ${req.query.id} is not found`))
+  }
+
+  res.status(200).json({success:true,reviews:product.reviews})
+})
+
+// delete user api
+// user and admin both can delete their own reviews
+// when we will delete the review then "ratings"(total) will be effected
+// Deleting a review requires productId and id of th review we wonna delete
+exports.deleteReviews=catchAsyncError(async(req,res,next)=>{
+  // we will pass id of product in query
+  const product= await Product.findById(req.query.productId)
+
+  // what if someone have passed wrong query 
+  if(!product)
+  {
+    return next(new ErrorHander(`Product with the id ${req.query.productId} is not found`))
+  }
+  // making a variable consisting all those reviews that we need
+  // .filter method will be used to get those reviews that we need
+  // console.log(req.query.id): this id will be provided by us and this is the id that we want to delete
+  // rev._id: This has the id of all the reviews stored in the "reviews array" 
+  // "reviews" now consist of the reviews only we want not the deleted one
+
+  const reviews=product.reviews.filter(rev=>rev._id.toString()!==req.query.id.toString())
+
+  // if any review is deleted then it will effect the overall "ratings" and "noOfReviews" will be decreased also
+
+  let avg=0
+
+  reviews.forEach((rev)=>{
+    avg=avg+rev.rating
+  })
+
+  // overall rating of product
+  const ratings=avg/reviews.length
+
+  const noOfReviews=reviews.length
+
+  // we need updation in the product therefore
+  // findByIdAndUpdate: kisko update krna ha, uska kiya kiya update krna ha, formality 
+  await Product.findByIdAndUpdate(req.query.productId,{reviews,ratings,noOfReviews},{run:true,useFindAndModify:false,runValidators:true})
+
+  res.status(200).json({success:true})
+})
+
+
+
