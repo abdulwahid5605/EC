@@ -1,0 +1,122 @@
+/* hero section */
+.banner {
+  height: 100vmin;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-image: linear-gradient(to right, #635dc0, #3827ae);
+  color: white;
+  font-family: "Roboto";
+}
+
+p {
+  font-size: 1.5vmax;
+}
+
+h1 {
+  margin: 4vmax;
+  font-size: 3vmax;
+}
+
+.home-btn {
+  /* outline: none; */
+  padding: 0.8vmax 1.8vmax;
+  border: 1px solid white;
+  border-radius: 0;
+  transition: all 0.5s;
+}
+
+.home-btn:hover {
+  background-color: #3220a1;
+  color: white;
+  cursor: pointer;
+}
+
+.banner::after {
+  content: "";
+  height: 100vmin;
+  width: 100vw;
+  background-color: white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  max-width: 100%;
+  clip-path: polygon(100% 74%, 0% 100%, 100% 100%);
+}
+
+/*Featured Products */
+.home-products h1 {
+  color: rgba(0, 0, 0, 0.767);
+  font-family: "Roboto";
+  font-weight: 500;
+  font-size: 2vmax;
+  text-align: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.603);
+  width: 20vmax;
+  margin: 5vmax auto;
+  padding: 1vmax;
+}
+
+.home-sub-products {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 2vmax auto;
+  width: 80vw;
+  max-width: 100%;
+}
+
+/* Product Compmonent  */
+.productCard {
+  width: 14vmax;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  color: rgba(0, 0, 0, 0.61);
+  margin: 2vmax;
+  padding-bottom: 0.5vmax;
+  transition: all 0.5s;
+  font-family: "Roboto";
+}
+
+.productCard:hover {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.568);
+  transform: translateY(-1vmax);
+}
+
+.productCard > img {
+  width: 14vmax;
+}
+
+.productCard > p {
+  margin: 0.5vmax;
+  font-size: 1.5vmax;
+}
+.productCard > div {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 0.5vmax;
+}
+
+.productCardSpan {
+  font-size: 0.8vmax;
+  font-weight: 300;
+  margin: 0.1vmax;
+}
+
+.productCard > .price {
+  color: tomato;
+  margin: 0.5vmax;
+  font-weight: 500;
+  font-size: 1.5vmax;
+}
+
+@media screen and (max-width: 800) {
+  .productCard > div {
+    display: block;
+    margin: 0;
+  }
+}

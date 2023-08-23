@@ -1,0 +1,86 @@
+.parent {
+  background-color: rgb(32, 32, 32);
+  margin-top: 10vmax;
+  padding: 2vmax;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 20%;
+  font-family: "Roboto";
+}
+
+.left h1 {
+  font-size: 1.5vmax;
+  margin: 1vmax;
+}
+
+.left p {
+  font-size: 1vmax;
+  text-align: center;
+  margin: 1vmax;
+}
+
+.left img {
+  width: 10vmax;
+  cursor: pointer;
+  margin: 1vmax;
+}
+
+.middle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 60%;
+}
+
+.middle h1 {
+  color: tomato;
+  font-family: "Roboto";
+  font-size: 3.6vmax;
+  margin: 2vmax;
+  font-weight: 500;
+}
+
+.middle p {
+  max-width: 60%;
+  font-size: 0.9vmax;
+  margin: 1vmax auto;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 20%;
+}
+
+.right h1 {
+  font-family: "Roboto";
+  font-size: 2vmax;
+  text-decoration: underline;
+  margin: 1vmax;
+}
+
+.right a {
+  font-size: 1.3vmax;
+  text-decoration: none;
+  margin: 0.7vmax;
+  font-family: "Roboto";
+  color: white;
+  transition: all 0.5s;
+}
+
+.right a:hover {
+  color: tomato;
+}

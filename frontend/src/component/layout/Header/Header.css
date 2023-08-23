@@ -1,0 +1,99 @@
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  background-color: white;
+  font-family: "Roboto";
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: -100vh;
+  left: 0;
+  transition: 1s;
+}
+
+.responsive_nav {
+  transform: translateY(100vh);
+}
+
+.nav-btn-bar {
+  position: fixed;
+  opacity: 1;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  top: 2vmax;
+  left: 2vmax;
+}
+
+/* .nav-btn-bar-remove {
+  visibility: hidden;
+}
+
+.nav-btn-close {
+  position: absolute;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  top: 2vmax;
+  left: 2vmax;
+} */
+
+ul {
+  list-style: none;
+}
+
+li {
+  font-size: 1.5vmax;
+  margin: 2vmax;
+}
+
+.icons {
+  margin: 0.9vmax;
+}
+
+.icon {
+  color: gray;
+  cursor: pointer;
+  transition: transform 0.5s, color 0.5s;
+}
+
+.icon:hover {
+  color: tomato;
+}
+.link {
+  text-decoration: none;
+  color: gray;
+  transition: transform 0.5s, color 0.5s;
+}
+
+.link:hover {
+  color: tomato;
+  cursor: pointer;
+}
+
+.leftcon {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 20%;
+  margin-left: 1.5vmax;
+}
+
+.middlecon {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
+}
+
+.rightcon {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 20%;
+}
