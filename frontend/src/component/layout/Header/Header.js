@@ -58,7 +58,7 @@ const Header = () => {
             </Link>
           </li>
           <li onClick={shownavbar} className="icons">
-            <Link to="/profile">
+            <Link to="/login">
               <FaUser className="icon" size={30} />
             </Link>
           </li>

@@ -1,0 +1,287 @@
+.productDetails {
+  max-width: 100%;
+  width: 100vw;
+  padding: 6vmax;
+  /* it makes the components height and width constant. Now adding more margin and padding will not effect the div  */
+  box-sizing: border-box;
+  background-color: white;
+  display: flex;
+}
+
+.productDetails > div {
+  border: 1px solid white;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 2vmax;
+}
+
+/* rather then align items position that is set centered we will set the align items to start */
+
+.productDetails > div:last-child {
+  align-items: flex-start;
+}
+
+.productDetails img {
+  width: 20vmax;
+}
+
+.detailsBlock-1 h2 {
+  color: rgba(0, 0, 0, 0.664);
+  font-size: 1.6vmax;
+  font-weight: 600;
+  font-family: "Roboto";
+}
+
+.detailsBlock-1 p {
+  color: gray;
+  font-size: 0.9vmax;
+  font-weight: 200;
+  font-family: cursive;
+}
+
+.detailsBlock-2 {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border-top: 1px solid grey;
+  border-bottom: 1px solid grey;
+  width: 70%;
+  padding: 1vmax 0;
+}
+
+.detailsBlock-2 p {
+  color: gray;
+  font-size: 0.9vmax;
+  font-weight: 200;
+  font-family: cursive;
+}
+
+.detailsBlock-3 {
+  width: 70%;
+}
+
+.detailsBlock-3 h2 {
+  font-size: 2.5vmax;
+  font-family: "Roboto";
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.664);
+}
+
+.detailsBlock-3-1 {
+  display: flex;
+  align-items: center;
+}
+
+.detailsBlock-3-1-1 button {
+  border: none;
+  background-color: rgba(0, 0, 0, 0.555);
+  padding: 0.6vmax;
+  color: white;
+  transition: all 0.5s ease;
+  cursor: pointer;
+}
+
+.detailsBlock-3-1-1 button:hover {
+  background-color: rgba(0, 0, 0, 0.842);
+}
+
+.detailsBlock-3-1-1 input {
+  border: none;
+  width: 1vmax;
+  padding: 0.7vmax;
+  text-align: center;
+  font: 400 0.8vmax "Roboto";
+}
+
+.detailsBlock-3-1 > button:last-child {
+  border: none;
+  cursor: pointer;
+  color: white;
+  background-color: tomato;
+  border-radius: 20px;
+  padding: 0.5vmax 2vmax;
+  margin: 1vmax;
+  transition: all 0.5s;
+  font: 500 0.7vmax "Roboto";
+}
+
+.detailsBlock-3-1 > button:last-child:hover {
+  background-color: rgb(241, 78, 50);
+}
+
+.detailsBlock-3 p {
+  border-top: 1px solid grey;
+  border-bottom: 1px solid grey;
+  padding: 1vmax 0;
+  font: 400 1vmax "Roboto";
+  margin: 1vmax 0;
+}
+
+.detailsBlock-4 {
+  color: rgba(0, 0, 0, 0.822);
+  font-size: 1.2vmax;
+  font-weight: 500;
+  font-family: "Roboto";
+}
+
+.detailsBlock-4 p {
+  color: rgba(0, 0, 0, 0.575);
+  font: 400 0.9vmax "Roboto";
+}
+
+.detailsBlock-4 > button:last-child {
+  border: none;
+  cursor: pointer;
+  color: white;
+  background-color: tomato;
+  border-radius: 20px;
+  padding: 0.6vmax 2vmax;
+  transition: all 0.5s;
+  font: 500 1vmax "Roboto";
+  margin: 1vmax 0;
+}
+
+/* ReviewCar */
+
+.revHeading {
+  text-align: center;
+  color: rgba(0, 0, 0, 0.747);
+  font-size: 2vmax;
+  font-family: "Roboto";
+  border-bottom: 1px solid gray;
+  width: 20vmax;
+  margin: 2vmax auto;
+  padding: 1vmax;
+}
+
+.detailsBlock-4 > button:last-child:hover {
+  background-color: rgb(241, 78, 50);
+  transform: scale(1.1);
+}
+/* Review Component */
+.reviewComponent {
+  display: flex;
+  /* overflow auto is used for saving the page. It generate a scroll bar */
+  overflow: auto;
+}
+
+/* No Reviews */
+.noReviews {
+  text-align: center;
+  color: rgba(0, 0, 0, 0.747);
+  font-size: 1.5vmax;
+}
+
+/* Review Card */
+.reviewCard {
+  /* so that its size remains constant */
+  flex: none;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.568);
+  width: 30vmax;
+  margin: 2vmax;
+  padding: 1vmax;
+}
+
+.reviewCard img {
+  width: 5vmax;
+}
+
+.reviewCard h2 {
+  color: rgba(0, 0, 0, 0.781);
+  font-family: "Roboto";
+  font-size: 1.5vmax;
+}
+
+.reviewCard p {
+  font-size: 1vmax;
+  font-family: cursive;
+  color: rgba(0, 0, 0, 0.575);
+}
+
+@media screen and (max-width: 600px) {
+  .productDetails {
+    flex-direction: column;
+    height: unset;
+  }
+
+  .productDetails > div:last-child {
+    align-items: center;
+  }
+
+  .detailsBlock-1 h2 {
+    text-align: center;
+    font-size: 2.4vmax;
+  }
+
+  .detailsBlock-1 p {
+    font-size: 1.1vmax;
+  }
+  .detailsBlock-2 {
+    justify-content: center;
+  }
+
+  .detailsBlock-2 p {
+    font-size: 1.5vmax;
+  }
+  .detailsBlock-3 h2 {
+    text-align: center;
+  }
+
+  .detailsBlock-3 {
+    margin: 1vmax 0;
+  }
+
+  .detailsBlock-3-1 {
+    flex-direction: column;
+  }
+
+  .detailsBlock-3-1-1 {
+    margin: 1vmax 0;
+  }
+
+  .detailsBlock-3-1-1 input {
+    padding: 1.5vmax;
+    width: 3vmax;
+    font: 400 1.8vmax "Roboto";
+  }
+
+  .detailsBlock-3-1-1 button {
+    padding: 1.2vmax;
+    width: 4vmax;
+  }
+
+  .detailsBlock-3-1 > button:last-child {
+    font: 500 1.7vmax "Roboto";
+    padding: 1.5vmax;
+    width: 20vmax;
+    margin: 3vmax 0;
+  }
+  .detailsBlock-3 p {
+    padding: 2.5vmax 0;
+    text-align: center;
+    font: 400 2vmax "Roboto";
+  }
+
+  .detailsBlock-4 {
+    font: 500 2.5vmax sans-serif;
+  }
+
+  .detailsBlock-4 > p {
+    font: 300 1.8vmax sans-serif;
+  }
+
+  .detailsBlock-4 > button:last-child {
+    font: 500 1.7vmax "Roboto";
+    padding: 1.5vmax;
+    width: 20vmax;
+    margin: 3vmax 0;
+  }
+}

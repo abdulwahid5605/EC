@@ -7,7 +7,7 @@
 // Error Handling
 // it is a good practice to use try catch block with async function. If we will use try catch seperately with each function then it will increase the lines of code. Therefore we are making a single function and will call them again and again. We have made the function in middleware which act as a try catch block.
 
-// using try catch will help the server to work rather then become crashed in case if someone have not provided the required details of product  
+// using try catch will help the server to work rather then become crashed in case if someone have not provided the required details of product
 
 // importing model of Product
 const catchAsyncError = require("../middleware/catchAsyncError");
@@ -17,13 +17,13 @@ const ErrorHander = require("../utils/errorHander");
 
 // Post Api --Admin route
 exports.createProduct = catchAsyncError(async (req, res, next) => {
-  // let suppose there are multiple admins of the website 
+  // let suppose there are multiple admins of the website
   // we want to know which admin have created the product to avoid confusion in future
-  // we want to get id of admin creating product automatically 
+  // we want to get id of admin creating product automatically
   // "req.user" consist of decodedData of user we have assigned in "isAuthenticatedUser"
   // decoded data also has the id of user
   // hence storing user id in user of schema
-  req.body.user=req.user.id
+  req.body.user = req.user.id;
 
   // await is used to pause the execution of a function
   const product = await Product.create(req.body);
@@ -31,28 +31,41 @@ exports.createProduct = catchAsyncError(async (req, res, next) => {
 });
 
 // Get Api
-exports.getAllProducts = catchAsyncError(async (req, res) => {
+exports.getAllProducts = catchAsyncError(async (req, res, next) => {
   // find method helps us to find all products stored un db
 
   // req.query is the word entered by user
   // we can also write req.query.keyword where keyword will be the varible being used to store the searched word
 
   // pagination function resultperpage
-  const resultPerPage = 5
+  const resultPerPage = 7;
 
-  // we need the total count of products in the front end 
-  const productCount = await Product.countDocuments()
+  // we need the total count of products in the front end
+  const productCount = await Product.countDocuments();
 
-  const apiFeature = new ApiFeature(Product.find(), req.query).Search().filter().pagination(resultPerPage)
+  const apiFeature = new ApiFeature(Product.find(), req.query)
+    .Search()
+    .filter();
+  // .pagination(resultPerPage);
+
+  // we have removed pagination because we want to show pagination according to our filtered products
+  // during filteration the products are removed so if removed products are more only few products are left on the page that dont require paging
+  let products = await apiFeature.query;
+
+  let filteredProductsCount = products.length;
+
+  apiFeature.pagination(resultPerPage);
 
   // we have replaced Product.find() method with apiFeature.query cuz in ApiFeature class this.query represents Product.find() so we have inherited that
-  const products = await apiFeature.query
+  products = await apiFeature.query;
   res.status(200).json({
     // this message is used just for testing that our apis are working correctly
     // message: "Route is working fine"
     success: true,
     products,
-    productCount
+    productCount,
+    resultPerPage,
+    filteredProductsCount,
   });
 });
 
@@ -63,8 +76,7 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
   let product = await Product.findById(req.params.id);
 
   if (!product) {
-    return new ErrorHander("Product not found", 404)
-
+    return new ErrorHander("Product not found", 404);
   }
 
   // req.body->is the data that we provide to the body to update
@@ -90,7 +102,7 @@ exports.deleteProduct = catchAsyncError(async (req, res, next) => {
   const product = await Product.findById(req.params.id);
 
   if (!product) {
-    return next(new ErrorHander("Product not found", 404))
+    return next(new ErrorHander("Product not found", 404));
   }
 
   // Deleting Product
@@ -108,12 +120,11 @@ exports.getProductDetails = catchAsyncError(async (req, res, next) => {
   const product = await Product.findById(req.params.id);
 
   if (!product) {
-    return next(new ErrorHander("Product not found", 404))
+    return next(new ErrorHander("Product not found", 404));
   }
 
   res.status(200).json({ success: false, product });
 });
-
 
 // Customer should be able to add reviews
 // we will be making two functions(creating and updating reviews) in the same api
@@ -132,7 +143,7 @@ exports.getProductDetails = catchAsyncError(async (req, res, next) => {
 // How can we do that?
 
 // exports.createProductReview=catchAsyncError(async(req,res,next)=>{
-//   // we have to find the product id first 
+//   // we have to find the product id first
 //   // destructuring
 //   const {productId, ratings, comment}=req.body
 //     // productId:req.body.productId,
@@ -153,12 +164,12 @@ exports.getProductDetails = catchAsyncError(async (req, res, next) => {
 //   }
 //   // finding the product in database and after that db will be updated
 //   const product=await Product.findById(req.body.productId)
-  
+
 //   // we can use both find and foreach methods of an array to find out the id of the user
 //   // find method will check that user id in review Schema(because we have recorded the id of user during creation of review) is equal to the id of the user "logged in"
 //   const isReviewed=product.reviews.find((rev)=>{rev.user.toStringify()===req.user._id.toStringify()})
-  
-//   // just update the review if it is already given 
+
+//   // just update the review if it is already given
 //   if(isReviewed)
 //   {
 //     product.reviews.forEach((rev)=>{
@@ -169,16 +180,16 @@ exports.getProductDetails = catchAsyncError(async (req, res, next) => {
 //         rev.ratings=ratings,
 //         rev.comment=comment
 //       }
-     
+
 //     })
-    
+
 //   }
 //   // review created and saved in db
-//   else 
+//   else
 //   {
 //     // saving the value of user id, name, ratings, comment
 //     product.reviews.push(reviews)
-//     // we also have to update the number of reviews 
+//     // we also have to update the number of reviews
 //     product.noOfReviews=product.reviews.length
 //   }
 
@@ -189,7 +200,7 @@ exports.getProductDetails = catchAsyncError(async (req, res, next) => {
 //   })
 
 //   product.ratings=avg/product.reviews.length
-  
+
 //   await product.save({validateBeforSave:true})
 
 //   res.status(201).json({success:true})
@@ -197,98 +208,102 @@ exports.getProductDetails = catchAsyncError(async (req, res, next) => {
 
 // practice of review api
 
-exports.productReviews=catchAsyncError(async(req,res,next)=>{
-  const reviews={
-    user:req.user.id,
-    name:req.user.name,
-    rating:Number(req.body.rating),
-    comment:req.body.comment
-  }
+exports.productReviews = catchAsyncError(async (req, res, next) => {
+  const reviews = {
+    user: req.user._id,
+    name: req.user.name,
+    rating: Number(req.body.rating),
+    comment: req.body.comment,
+  };
 
-  const product = await Product.findById(req.body.productId)
+  const product = await Product.findById(req.body.productId);
 
-  const isReviewed=product.reviews.find((rev)=>rev.user.toString()===req.user._id.toString())
-  if(isReviewed)
-  {
-    product.reviews.forEach((rev)=>{
-      if(rev.user.toString()===req.user._id.toString()){
-        rev.rating=req.body.rating,
-        rev.comment=req.body.comment 
+  const isReviewed = product.reviews.find(
+    (rev) => rev.user.toString() === req.user._id.toString()
+  );
+  if (isReviewed) {
+    product.reviews.forEach((rev) => {
+      if (rev.user.toString() === req.user._id.toString()) {
+        (rev.rating = req.body.rating), (rev.comment = req.body.comment);
       }
-    })
-  }
-  else {
-    product.reviews.push(reviews)
-    product.noOfReviews=product.reviews.length 
+    });
+  } else {
+    product.reviews.push(reviews);
+    product.noOfReviews = product.reviews.length;
   }
 
   // const not because values will be changed
   // const avg=0
-  let avg=0
-  product.reviews.forEach((rev)=>{
-    avg=avg+rev.rating 
-  })
-  product.ratings=avg/product.reviews.length 
+  let avg = 0;
+  product.reviews.forEach((rev) => {
+    avg = avg + rev.rating;
+  });
+  product.ratings = avg / product.reviews.length;
 
-  await product.save({validateBeforeSave:true})
+  await product.save({ validateBeforeSave: true });
 
-  res.status(201).json({success:true})
-})
+  res.status(201).json({ success: true });
+});
 
 // Api for getting all reviews of one product
-exports.getProductReviews=catchAsyncError(async(req,res,next)=>{
+exports.getProductReviews = catchAsyncError(async (req, res, next) => {
   // we will pass id of product in query
-  const product= await Product.findById(req.query.id)
+  const product = await Product.findById(req.query.id);
 
-  // what if someone have passed wrong query 
-  if(!product)
-  {
-    return next(new ErrorHander(`Product with the id ${req.query.id} is not found`))
+  // what if someone have passed wrong query
+  if (!product) {
+    return next(
+      new ErrorHander(`Product with the id ${req.query.id} is not found`)
+    );
   }
 
-  res.status(200).json({success:true,reviews:product.reviews})
-})
+  res.status(200).json({ success: true, reviews: product.reviews });
+});
 
 // delete user api
 // user and admin both can delete their own reviews
 // when we will delete the review then "ratings"(total) will be effected
 // Deleting a review requires productId and id of th review we wonna delete
-exports.deleteReviews=catchAsyncError(async(req,res,next)=>{
+exports.deleteReviews = catchAsyncError(async (req, res, next) => {
   // we will pass id of product in query
-  const product= await Product.findById(req.query.productId)
+  const product = await Product.findById(req.query.productId);
 
-  // what if someone have passed wrong query 
-  if(!product)
-  {
-    return next(new ErrorHander(`Product with the id ${req.query.productId} is not found`))
+  // what if someone have passed wrong query
+  if (!product) {
+    return next(
+      new ErrorHander(`Product with the id ${req.query.productId} is not found`)
+    );
   }
   // making a variable consisting all those reviews that we need
   // .filter method will be used to get those reviews that we need
   // console.log(req.query.id): this id will be provided by us and this is the id that we want to delete
-  // rev._id: This has the id of all the reviews stored in the "reviews array" 
+  // rev._id: This has the id of all the reviews stored in the "reviews array"
   // "reviews" now consist of the reviews only we want not the deleted one
 
-  const reviews=product.reviews.filter(rev=>rev._id.toString()!==req.query.id.toString())
+  const reviews = product.reviews.filter(
+    (rev) => rev._id.toString() !== req.query.id.toString()
+  );
 
   // if any review is deleted then it will effect the overall "ratings" and "noOfReviews" will be decreased also
 
-  let avg=0
+  let avg = 0;
 
-  reviews.forEach((rev)=>{
-    avg=avg+rev.rating
-  })
+  reviews.forEach((rev) => {
+    avg = avg + rev.rating;
+  });
 
   // overall rating of product
-  const ratings=avg/reviews.length
+  const ratings = avg / reviews.length;
 
-  const noOfReviews=reviews.length
+  const noOfReviews = reviews.length;
 
   // we need updation in the product therefore
-  // findByIdAndUpdate: kisko update krna ha, uska kiya kiya update krna ha, formality 
-  await Product.findByIdAndUpdate(req.query.productId,{reviews,ratings,noOfReviews},{run:true,useFindAndModify:false,runValidators:true})
+  // findByIdAndUpdate: kisko update krna ha, uska kiya kiya update krna ha, formality
+  await Product.findByIdAndUpdate(
+    req.query.productId,
+    { reviews, ratings, noOfReviews },
+    { run: true, useFindAndModify: false, runValidators: true }
+  );
 
-  res.status(200).json({success:true})
-})
-
-
-
+  res.status(200).json({ success: true });
+});

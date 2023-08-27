@@ -1,0 +1,34 @@
+.searchForm {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: silver;
+}
+
+.searchForm input[type="text"] {
+  border: none;
+  padding: 1vmax 1vmax;
+  width: 30vmax;
+  outline: none;
+  font-family: cursive;
+}
+
+.searchForm input[type="submit"] {
+  font-family: cursive;
+  padding: 1vmax 1vmax;
+  border: none;
+  background-color: tomato;
+  color: white;
+  width: 10vmax;
+  cursor: pointer;
+  transition: all 0.9s;
+}
+
+.searchForm input[type="submit"]:hover {
+  background-color: rgba(0, 0, 255, 0.753);
+}

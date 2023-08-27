@@ -10,7 +10,11 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import WebFont from "webfontloader";
 import React from "react";
 import Footer from "./component/layout/Footer/Footer.js";
-import Home from "./component/layout/Home/Home.js";
+import Home from "./component/Home/Home.js";
+import ProductDetails from "./component/layout/Product/productDetails";
+import Products from "./component/Product/Products.js";
+import Search from "./component/layout/Search/Search";
+import LoginSignup from "./component/User/LoginSignup.js";
 
 function App() {
   // useEffect is hook of React
@@ -33,6 +37,20 @@ function App() {
       <Header />
       <Route exact path="/" component={Home} />
 
+      {/*After Clicking on the product of Home page*/}
+      <Route exact path="/product/:id" component={ProductDetails} />
+
+      {/* products page */}
+      <Route exact path="/products" component={Products} />
+
+      {/* search page */}
+      <Route exact path="/search" component={Search} />
+
+      {/* seaching kartay huay */}
+      <Route path="/products/:keyword" component={Products} />
+
+      {/* login and signup both */}
+      <Route exact path="/login" component={LoginSignup} />
       <Footer />
     </Router>
   );
