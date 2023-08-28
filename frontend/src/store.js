@@ -5,11 +5,13 @@ import {
   productReducer,
 } from "./Reducer/productReducer";
 import { composeWithDevTools } from "redux-devtools-extension";
+import { userReducer } from "./Reducer/userReducer";
 
 // combining all reducer and creating one that will be exported
 const reducer = combineReducers({
   products: productReducer,
   productDetails: productDetailsReducer,
+  user: userReducer,
 });
 
 // initial state will be empty
