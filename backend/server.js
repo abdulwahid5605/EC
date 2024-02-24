@@ -3,6 +3,8 @@
 // importing express from app.js file
 const app = require("./app");
 
+const cloudinary=require("cloudinary")
+
 // importing function used to connect db
 const connectDatabase = require("./config/database");
 
@@ -21,6 +23,13 @@ dotenv.config({ path: "backend/config/config.env" });
 
 // it is necessary to add connectDatabase function afterthe dotenv file because "process.env.DB_URI" is the variable that is being imported from dotenv file
 connectDatabase();
+
+cloudinary.config({
+  cloud_name:process.env.CLOUDINARY_NAME,
+  api_key:process.env.CLOUDINARY_API_KEY,
+  api_secret:process.env.CLOUDINARY_API_SECRET,
+
+})
 
 // listen is used to start the web server. It listens all of the http requests
 // it requires a port number. We are giving the values of variables using "dotenv" library

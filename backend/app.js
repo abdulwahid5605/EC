@@ -11,9 +11,15 @@ const cookieParser = require("cookie-parser")
 // this function is used to set the statuscode and message with the help of class errorHander
 const errorMiddleware = require("./middleware/error")
 
+const fileUplaod=require("express-fileupload")
+
+const bodyParser=require("body-parser")
+
 // middleware
 app.use(express.json());
 app.use(cookieParser())
+app.use(fileUplaod())
+app.use(bodyParser.urlencoded({extended:true}))
 
 // Route imports
 const product = require("./routes/productRoute");

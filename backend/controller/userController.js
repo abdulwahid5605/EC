@@ -15,8 +15,17 @@ const { sendEmail } = require("../utils/sendEmail");
 // crypto:for generating reset password token
 const crypto=require("crypto")
 
+const cloudinary=require("cloudinary")
+
 // post Api
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
+
+    const myCloud=await cloudinary.v2.uploader.upload(req.body.avatar,{
+        folder:"resume",
+        width:150,
+        crop:"scale"
+    })
+
     // in case you want to take all the inputs
     // const user= await User.create(req.body)
 
@@ -26,8 +35,8 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 
     const user = await User.create({
         name, email, password, avatar: {
-            public_id: "sample id",
-            url: "sampleurl"
+            public_id: myCloud.public_id,
+            url: myCloud.secure_url
         }
     })
 

@@ -10,6 +10,7 @@ nav {
   top: -100vh;
   left: 0;
   transition: 1s;
+  z-index: 13;
 }
 
 .responsive_nav {
@@ -24,6 +25,7 @@ nav {
   background-color: transparent;
   top: 2vmax;
   left: 2vmax;
+  z-index: 13;
 }
 
 /* .nav-btn-bar-remove {
@@ -94,6 +96,18 @@ li {
   justify-content: center;
   align-items: center;
   width: 20%;
+}
+
+.speedDial {
+  position: fixed;
+  right: 3vmax;
+  top: 3vmax;
+}
+
+.speedDialIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 100%;
 }
 
 @media screen and (max-width: 600px) {
