@@ -145,9 +145,7 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
   // clicking on this link he/her can update the password
   // preparing the link
   // req.get("host")-> it is used to get the hostname
-  const resetPasswordUrl = `${req.protocol}://${req.get(
-    "host"
-  )}/api/v1/password/reset/${resetToken}`;
+  const resetPasswordUrl = `${process.env.FRONTEND_URL}/password/reset/${resetToken}`;
 
   // preparing a message that we want to sent to customer
   // \n-> line break
