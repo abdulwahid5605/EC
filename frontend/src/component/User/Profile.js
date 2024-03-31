@@ -1,12 +1,12 @@
 import React, { Fragment, useEffect } from "react";
-import { useSelector } from "react-redux";
 import MetaData from "../MetaData";
-import Loader from "../layout/Loader/Loader";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import Loader from "../layout/Loader/Loader";
 import "./Profile.css";
 
 const Profile = ({ history }) => {
-  const { user, loading, isAuthenticated } = useSelector((state) => state.user);
+  const { user, isAuthenticated, loading } = useSelector((state) => state.user);
 
   useEffect(() => {
     if (isAuthenticated === false) {
@@ -39,7 +39,6 @@ const Profile = ({ history }) => {
                 <h4>Joined On</h4>
                 <p>{String(user.createdAt).substr(0, 10)}</p>
               </div>
-
               <div>
                 <Link to="/orders">My Orders</Link>
                 <Link to="/password/update">Change Password</Link>

@@ -22,6 +22,8 @@ import UserOptions from "./component/layout/Header/UserOptions.js";
 import Profile from "./component/User/Profile.js";
 import ProtectedRoute from "./component/Route/ProtectedRoute.jsx";
 import UpdateProfile from "./component/User/UpdateProfile.js";
+import UpdatePassword from "./component/User/UpdatePassword.js";
+import ForgotPassword from "./component/User/ForgotPassword.js";
 
 function App() {
   // useEffect is hook of React
@@ -66,6 +68,14 @@ function App() {
       <ProtectedRoute exact path="/account" component={Profile} />
 
       <ProtectedRoute exact path="/me/update" component={UpdateProfile} />
+
+      <ProtectedRoute
+        exact
+        path="/password/update"
+        component={UpdatePassword}
+      />
+
+      <Route exact path="/password/forgot" component={ForgotPassword} />
 
       <Footer />
     </Router>
